@@ -12,6 +12,17 @@
 \documentclass[final]{beamer}
 \usepackage{workshop-poster}
 
+% ayuda visual para la hacer notar la ecuación principal con los colores de workshop-poster.sty
+\newcommand{\cajaPrincipal}[1]{%
+  \begin{center}
+  \begin{tikzpicture}
+    \node[draw=wsRosa, line width=0.25cm, rounded corners=0.8cm,
+          fill=wsRosa!8, inner xsep=1.2cm, inner ysep=0.9cm,
+          text width=0.86\linewidth, align=center] {#1};
+  \end{tikzpicture}
+  \end{center}}
+
+
 \begin{document}
 \begin{frame}[t]
 
@@ -20,7 +31,8 @@
 % ---------------------------------------------------------------------
 \wsPosterHeader
   {El café, no el dólar: qué mueve su precio en pesos}
-  {Información de los autores (Tomás Henao Bonilla, Universidad Nacional de Colombia, Manizales, Colombia)}
+  {Tomás Henao Bonilla, Universidad Nacional de Colombia, Manizales, Colombia\\
+  Semillero FinData}
 
 % ---------------------------------------------------------------------
 % Dos columnas de 34.37 cm, como en la plantilla
@@ -31,26 +43,40 @@
 \begin{column}{34.37cm}
 
 \begin{block}{Resumen}
-El café se cotiza en dólares en Nueva York, pero el caficultor colombiano vende en pesos. ¿Qué pesa más en el precio en pesos: el precio internacional o la tasa de cambio (TRM)? Entre 2016 y 2026, el café en dólares se multiplicó por 2.5, mientras que la TRM terminó casi donde comenzó. Como el precio en pesos es es el producto entre el precio en dólares y la TRM, el retorno en pesos es la adición de los retornos en dólares y los retornos de la TRM, luego la varianza se reparte exactamente: el precio internacional explica del 81\% al 88\% de los retornos en pesos. De esto, cubrirse con futuros de café, elimina la mayor parte del riesgo. % si el café baja pierde con la cosecha pero gana con el futuro. si sube, gana con la cosecha pero pierde con el futuro. 
+El café se cotiza en dólares en Nueva York, pero el caficultor colombiano vende en pesos. ¿Qué pesa más: el precio internacional o la tasa de cambio (TRM)? Entre 2016 y 2026, el café en dólares se multiplicó por 2.5, mientras que la TRM terminó casi donde comenzó. Como el precio en pesos es el producto de ambos, su retorno logarítmico es una suma y su varianza se descompone sin residuo. El precio internacional explica del 81\% al 88\% de esa variación, considerando los tres horizontes. Por eso, vender futuros de café uno a uno elimina esa misma fracción de la varianza del ingreso en pesos; la volatilidad restante proviene de la parte de la TRM no ligada al café.
 \end{block}
 
 \begin{block}{Materiales y métodos}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Se considera el modelo
+Precios diarios de cierre del 04 de enero de 2016 al 23 de octubre de 2026: futuros de café variedad arábica KC = F, (¢\,USD por libra, Yahoo finance) y TRM (COP por USD, Superintendencia Financiera de Colombia). Son 2714 retornos diarios, 563 retornos semanales y 128 retornos mensuales.
+
+\textbf{1. Precio en pesos.}
 \begin{equation}
-  y_i = \beta_0 + \sum_{j=1}^{p} \beta_j x_{ij} + \varepsilon_i,
-  \qquad \varepsilon_i \sim N(0,\sigma^2),
+  P^{\mathrm{COP}}_t = P^{\mathrm{USD}}_t \cdot \mathrm{TRM}_t .
 \end{equation}
-cuyos parámetros se estiman por mínimos cuadrados. El procedimiento sigue
-estos pasos:
-\begin{itemize}
-  \item Depuración y descripción de los datos.
-  \item Ajuste del modelo y validación de supuestos.
-  \item Comparación con métodos alternativos.
-\end{itemize}
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\textbf{2. Retornos.} Con $R_t = 100\, \Delta \ln P_t.$, para cualquier horizonte, se tiene:
+\begin{equation}
+  R^{\mathrm{COP}}_t = R^{\mathrm{USD}}_t + R^{\mathrm{TRM}}_t .
+\end{equation}
+
+\textbf{3. Varianza} 
+\begin{equation}
+  \operatorname{Var}\!\left( R^{\mathrm{COP}}_t\right) = \operatorname{Var}\left(R^{\mathrm{USD}}_t \right) + \operatorname{Var}\!\left(R^{\mathrm{TRM}}_t\right) + 2 \operatorname{Cov}\!\left(R^{\mathrm{USD}}_t, R^{\mathrm{TRM}}_t\right) .
+\end{equation}
+
+\textbf{4. Cuánto explica el café.} Ajustamos una recta entre el retorno en pesos y el retorno en dólares. El $R^2$ mide qué fracción de la variabilidad del precio en pesos se explica por esa recta. El resto, $\varepsilon$, es lo que el café no alcanza a explicar:
+\cajaPrincipal{
+  \begin{equation}
+    R^2 = \operatorname{corr}\! \left(R^{\mathrm{COP}}_t, R^{\mathrm{USD}}_t\right)^2= 1 - \frac{\operatorname{Var}(\varepsilon_t)}{\operatorname{Var}(R^{\mathrm{COP}}_t)} 
+  \end{equation}
+  {\wsSmallSize con $R^{\mathrm{COP}}_t = \beta_0 + \beta_1 R^{\mathrm{USD}}_t + \varepsilon_t$.Su complemento, $1-R^2$, es la fracción de la variabilidad del precio en pesos que el café no explica: la parte de la TRM que no está ligada al café.}  
+}
+
+\textbf{5. Cobertura.} Con futuros de café, la razón de mínima varianza es 
+\begin{equation}
+  h^* = \frac{\operatorname{Cov}\!\big(R^{\mathrm{COP}}, R^{\mathrm{USD}}\big)}{\operatorname{Var}\!\big(R^{\mathrm{USD}}\big)}
+\end{equation}
+y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Intervalos al 95\% con bootstrap de 1000 repeticiones~\cite{bootstrap}.
 \end{block}
 
 \end{column}
@@ -59,40 +85,48 @@ sunt in culpa qui officia deserunt mollit anim id est laborum.
 \begin{column}{34.37cm}
 
 \begin{block}{Resultados y análisis}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua (Figura~\ref{fig:ejemplo}
-y Tabla~\ref{tab:ejemplo}).
+\textbf{El café se movió, pero la TRM terminó donde empezó} El café pasó de
+124 a 307\,¢ por libra; la TRM, de 3149 a 3185 pesos
+(Figura~\ref{fig:niveles}).
 
 \begin{figure}
   \centering
   % Reemplace este recuadro por su figura, por ejemplo:
-  \includegraphics[width=0.9\linewidth]{img/fig_niveles.pdf}
+  \includegraphics[width=0.75\linewidth]{img/fig_niveles.pdf}
   \caption{Café en dólares, TRM y café en pesos (enero 2016 = 100).}
-  \label{fig:ejemplo}
+  \label{fig:niveles}
 \end{figure}
 
+\textbf{El café explica más del 80\% en todo horizonte.} $R^2$ de 88\% diario, 81\% semanal y 85\% mensual (Figura~\ref{fig:r2}), con intervalos al 95\% que no bajan del 77\%. La correlación café--TRM es débil (entre $-$0.01 y $-$0.18): la tasa de cambio casi no amortigua los movimientos del café.
 \begin{figure}
   \centering
   % Reemplace este recuadro por su figura, por ejemplo:
-  \includegraphics[width=0.9\linewidth]{img/fig_r2.pdf}
+  \includegraphics[width=0.75\linewidth]{img/fig_r2.pdf}
   \caption{Reparto de la varianza del retorno del café en pesos, con el IC al 95\% del $R^2$.}
-  \label{fig:ejemplo}
+  \label{fig:r2}
 \end{figure}
 
 \end{block}
 
 \begin{block}{Conclusiones}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+\begin{itemize}
+  \item El precio internacional domina el precio del café en pesos.
+  \item La TRM pesa poco y no es una cobertura natural.
+  \item La cobertura debe apuntar al café (futuros), no a la divisa.
+\end{itemize}
+{\wsSmallSize\textbf{Limitaciones:} KC=F es el precio internacional, no
+el del productor, y es un contrato continuo; los cierres diarios del café
+y de la TRM no están sincronizados. \textbf{Trabajo futuro:} controlar
+por el dólar amplio y comparar con el real brasileño.}
 \end{block}
 
 \begin{block}{Referencias}
 \begin{thebibliography}{9}
-  \bibitem{ref1} Autor, A. y Autor, B. (2024). Título del artículo.
+  \bibitem{futuros} Autor, A. y Autor, B. (2024). Título del artículo.
     \emph{Nombre de la Revista}, 10(2), 1--20.
-  \bibitem{ref2} Autor, C. (2022). \emph{Título del libro}. Editorial.
+  \bibitem{bootstrap} Autor, C. (2022). \emph{Título del libro}. Editorial.
+  \bibitem{trm} Superfinanciera. \emph{TRM}, datos.gov.co (32sa-8pi3).
+  Yahoo Finance, serie KC=F.
 \end{thebibliography}
 \end{block}
 

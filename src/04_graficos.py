@@ -1,3 +1,5 @@
+# en esta parte se generan los dos gráficos del poster. Para no complicarme la vide usé ayuda, por lo que si tienen sugerencias para mejores gráficos, se los agradecería.
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
