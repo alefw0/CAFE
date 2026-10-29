@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+.venv/
+
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.xdv
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+

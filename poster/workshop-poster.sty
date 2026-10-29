@@ -1,0 +1,159 @@
+% =====================================================================
+%  workshop-poster.sty
+%  Estilo de póster: 2do Workshop Internacional de Estadística
+%  UNAL Sede Manizales, 5 y 6 de noviembre de 2026
+%
+%  Reproduce la plantilla oficial en PowerPoint (90 cm x 120 cm, vertical).
+%  Compilar con XeLaTeX o LuaLaTeX (no pdfLaTeX), porque usa la fuente
+%  Ancizar Sans incluida en la carpeta fonts/.
+%
+%  Normalmente no hace falta editar este archivo: el contenido del póster
+%  va en main.tex.
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{workshop-poster}[2026/10/17 Poster 2do Workshop Internacional de Estadistica]
+
+% ---------------------------------------------------------------------
+% Tamaño de página: 90 cm de ancho x 120 cm de alto
+% ---------------------------------------------------------------------
+\RequirePackage[orientation=portrait,size=custom,width=90,height=120,scale=1]{beamerposter}
+
+\RequirePackage{iftex}
+\ifTUTeX\else
+  \PackageError{workshop-poster}{Compile con XeLaTeX o LuaLaTeX, no con pdfLaTeX}%
+    {La fuente Ancizar Sans requiere fontspec (XeLaTeX o LuaLaTeX).}
+\fi
+
+\RequirePackage{babel}
+\babelprovide[import,main]{spanish} % español sin atajos activos (compatible con beamer)
+\RequirePackage{fontspec}
+\RequirePackage{tikz}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{ragged2e}
+\RequirePackage{amsmath,amssymb}
+
+% ---------------------------------------------------------------------
+% Fuente institucional: Ancizar Sans (licencia OFL, copia en fonts/)
+% ---------------------------------------------------------------------
+\setsansfont{AncizarSans}[
+  Path           = fonts/,
+  Extension      = .ttf,
+  UprightFont    = *-Regular,
+  BoldFont       = *-Bold,
+  ItalicFont     = *-RegularItalic,
+  BoldItalicFont = *-BoldItalic,
+]
+\setmainfont{AncizarSans}[
+  Path           = fonts/,
+  Extension      = .ttf,
+  UprightFont    = *-Regular,
+  BoldFont       = *-Bold,
+  ItalicFont     = *-RegularItalic,
+  BoldItalicFont = *-BoldItalic,
+]
+
+% ---------------------------------------------------------------------
+% Colores tomados de la plantilla
+% ---------------------------------------------------------------------
+\definecolor{wsAzul}{HTML}{26285B}   % títulos y texto institucional
+\definecolor{wsRosa}{HTML}{C74994}   % pestañas de las secciones
+\definecolor{wsTexto}{HTML}{000000}  % cuerpo de texto
+
+\setbeamercolor{normal text}{fg=wsTexto}
+\setbeamercolor{structure}{fg=wsAzul}
+\setbeamercolor{alerted text}{fg=wsRosa}
+\setbeamercolor{caption name}{fg=wsAzul}
+\setbeamercolor{bibliography item}{fg=wsAzul}
+\setbeamercolor{bibliography entry author}{fg=wsTexto}
+\setbeamercolor{bibliography entry title}{fg=wsTexto}
+\setbeamercolor{bibliography entry location}{fg=wsTexto}
+\setbeamercolor{bibliography entry note}{fg=wsTexto}
+
+% ---------------------------------------------------------------------
+% Tamaños de letra (los mismos de la plantilla PowerPoint)
+%   Título 96 pt | Autores 60 pt | Secciones 66 pt | Texto 36 pt
+% ---------------------------------------------------------------------
+\newcommand{\wsTitleSize}{\fontsize{96}{110}\selectfont}
+\newcommand{\wsAuthorSize}{\fontsize{60}{72}\selectfont}
+\newcommand{\wsSectionSize}{\fontsize{66}{76}\selectfont}
+\newcommand{\wsBodySize}{\fontsize{36}{44}\selectfont}
+\newcommand{\wsSmallSize}{\fontsize{30}{36}\selectfont}
+
+\setbeamerfont{normal text}{size=\wsBodySize}
+\setbeamerfont{caption}{size=\wsSmallSize}
+\setbeamerfont{bibliography item}{size=\wsSmallSize}
+\setbeamerfont{bibliography entry author}{size=\wsSmallSize}
+\setbeamerfont{bibliography entry title}{size=\wsSmallSize}
+\setbeamerfont{bibliography entry location}{size=\wsSmallSize}
+\setbeamerfont{bibliography entry note}{size=\wsSmallSize}
+\AtBeginDocument{\wsBodySize}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+
+% ---------------------------------------------------------------------
+% Márgenes y fondo (encabezado del Workshop + franja inferior institucional)
+% ---------------------------------------------------------------------
+\setbeamersize{text margin left=6.91cm, text margin right=7.27cm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+
+\setbeamertemplate{background canvas}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=north west, inner sep=0pt] at (current page.north west)
+      {\includegraphics[width=\paperwidth,height=\paperheight]{img/fondo_pie.png}};
+    \node[anchor=north west, inner sep=0pt] at (current page.north west)
+      {\includegraphics[width=\paperwidth,height=\paperheight]{img/fondo_encabezado.png}};
+  \end{tikzpicture}%
+}
+
+% ---------------------------------------------------------------------
+% Encabezado del póster: título y autores
+% ---------------------------------------------------------------------
+% \wsPosterHeader{<título>}{<autores, filiación, ciudad y país>}
+\newcommand{\wsPosterHeader}[2]{%
+  \vspace*{22.6cm}% deja libre la zona del logo del Workshop
+  \begin{center}
+    \begin{minipage}{0.92\textwidth}
+      \centering
+      {\wsTitleSize\bfseries\color{wsAzul}#1\par}
+      \vspace{0.3cm}
+      {\wsAuthorSize\color{wsAzul}#2\par}
+    \end{minipage}
+  \end{center}
+  \vspace{5.0cm}%
+}
+
+% ---------------------------------------------------------------------
+% Secciones con pestaña rosada (equivalen a los bloques de la plantilla)
+%   \begin{block}{Resumen} ... \end{block}
+% ---------------------------------------------------------------------
+\setbeamertemplate{block begin}{%
+  \par\vspace{0.4cm}%
+  \noindent
+  \begin{tikzpicture}[baseline]
+    \node[fill=wsRosa, text=wsAzul, rounded corners=0.55cm,
+          inner xsep=0.75cm, inner ysep=0.35cm, minimum height=3.41cm,
+          align=center, font=\wsSectionSize\bfseries]
+      {\insertblocktitle};
+  \end{tikzpicture}\par
+  \vspace{0.6cm}%
+  \begingroup\wsBodySize\justifying
+}
+\setbeamertemplate{block end}{%
+  \par\endgroup\vspace{1.4cm}%
+}
+
+% Listas con viñetas en los colores del evento
+\setbeamertemplate{itemize items}[circle]
+\setbeamercolor{itemize item}{fg=wsRosa}
+\setbeamercolor{itemize subitem}{fg=wsAzul}
+\setbeamertemplate{enumerate items}[default]
+\setbeamercolor{enumerate item}{fg=wsAzul}
+
+% Figuras y tablas
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{.\ }
+\setbeamertemplate{bibliography item}[text]
+
+\endinput
