@@ -31,8 +31,9 @@
 % ---------------------------------------------------------------------
 \wsPosterHeader
   {El café, no el dólar: qué mueve su precio en pesos}
-  {Tomás Henao Bonilla, Universidad Nacional de Colombia, Manizales, Colombia\\
-  Semillero FinData}
+  {Tomás Henao Bonilla · thenaob@unal.edu.co\\
+  Semillero FinData · Universidad Nacional de Colombia, Sede Manizales
+  }
 
 % ---------------------------------------------------------------------
 % Dos columnas de 34.37 cm, como en la plantilla
@@ -43,23 +44,23 @@
 \begin{column}{34.37cm}
 
 \begin{block}{Resumen}
-El café se cotiza en dólares en Nueva York, pero el caficultor colombiano vende en pesos. ¿Qué pesa más: el precio internacional o la tasa de cambio (TRM)? Entre 2016 y 2026, el café en dólares se multiplicó por 2.5, mientras que la TRM terminó casi donde comenzó. Como el precio en pesos es el producto de ambos, su retorno logarítmico es una suma y su varianza se descompone sin residuo. El precio internacional explica del 81\% al 88\% de esa variación, considerando los tres horizontes. Por eso, vender futuros de café uno a uno elimina esa misma fracción de la varianza del ingreso en pesos; la volatilidad restante proviene de la parte de la TRM no ligada al café.
+El café se cotiza en dólares en Nueva York, pero el caficultor colombiano vende en pesos. ¿Qué pesa más: el precio internacional o la tasa de cambio (TRM)? Entre 2016 y 2026, el café en dólares se multiplicó por 2.5, mientras que la TRM terminó casi donde comenzó (Figura~\ref{fig:niveles}). Como el precio en pesos es el producto de ambos, su retorno logarítmico es una suma y su varianza se descompone sin residuo. El precio internacional explica del 81\,\% al 88\,\% de esa variación, a escala diaria, semanal y mensual. Por eso, vender futuros de café uno a uno elimina esa misma fracción de la varianza del ingreso en pesos; la volatilidad restante proviene de la parte de la TRM no ligada al café.
 \end{block}
 
 \begin{block}{Materiales y métodos}
-Precios diarios de cierre del 04 de enero de 2016 al 23 de octubre de 2026: futuros de café variedad arábica KC = F, (¢\,USD por libra, Yahoo finance) y TRM (COP por USD, Superintendencia Financiera de Colombia). Son 2714 retornos diarios, 563 retornos semanales y 128 retornos mensuales.
+Precios diarios de cierre del 4 de enero de 2016 al 23 de octubre de 2026: futuros de café variedad arábica KC=F (¢\,USD por libra, Yahoo Finance) y TRM (COP por USD, Superintendencia Financiera de Colombia). Son 2718 retornos diarios, 563 retornos semanales y 128 retornos mensuales.
 
 \textbf{1. Precio en pesos.}
 \begin{equation}
   P^{\mathrm{COP}}_t = P^{\mathrm{USD}}_t \cdot \mathrm{TRM}_t .
 \end{equation}
 
-\textbf{2. Retornos.} Con $R_t = 100\, \Delta \ln P_t.$, para cualquier horizonte, se tiene:
+\textbf{2. Retornos.} Con $R_t = 100\, \Delta \ln P_t$, para cualquier horizonte, se tiene:
 \begin{equation}
   R^{\mathrm{COP}}_t = R^{\mathrm{USD}}_t + R^{\mathrm{TRM}}_t .
 \end{equation}
 
-\textbf{3. Varianza} 
+\textbf{3. Varianza.} 
 \begin{equation}
   \operatorname{Var}\!\left( R^{\mathrm{COP}}_t\right) = \operatorname{Var}\left(R^{\mathrm{USD}}_t \right) + \operatorname{Var}\!\left(R^{\mathrm{TRM}}_t\right) + 2 \operatorname{Cov}\!\left(R^{\mathrm{USD}}_t, R^{\mathrm{TRM}}_t\right) .
 \end{equation}
@@ -69,14 +70,14 @@ Precios diarios de cierre del 04 de enero de 2016 al 23 de octubre de 2026: futu
   \begin{equation}
     R^2 = \operatorname{corr}\! \left(R^{\mathrm{COP}}_t, R^{\mathrm{USD}}_t\right)^2= 1 - \frac{\operatorname{Var}(\varepsilon_t)}{\operatorname{Var}(R^{\mathrm{COP}}_t)} 
   \end{equation}
-  {\wsSmallSize con $R^{\mathrm{COP}}_t = \beta_0 + \beta_1 R^{\mathrm{USD}}_t + \varepsilon_t$.Su complemento, $1-R^2$, es la fracción de la variabilidad del precio en pesos que el café no explica: la parte de la TRM que no está ligada al café.}  
+  {\wsSmallSize con $R^{\mathrm{COP}}_t = \beta_0 + \beta_1 R^{\mathrm{USD}}_t + \varepsilon_t$. Su complemento, $1-R^2$, es la fracción de la variabilidad del precio en pesos que el café no explica: la parte de la TRM que no está ligada al café.}  
 }
 
-\textbf{5. Cobertura.} Con futuros de café, la razón de mínima varianza es 
+\textbf{5. Cobertura.} Con futuros de café, la razón de mínima varianza es la pendiente $\beta_1$ de la recta anterior:
 \begin{equation}
   h^* = \frac{\operatorname{Cov}\!\big(R^{\mathrm{COP}}, R^{\mathrm{USD}}\big)}{\operatorname{Var}\!\big(R^{\mathrm{USD}}\big)}
 \end{equation}
-y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Intervalos al 95\% con bootstrap de 1000 repeticiones~\cite{bootstrap}.
+y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Intervalos al 95\,\% por bootstrap (1000 repeticiones, por bloques en el diario) pues los retornos tienen colas pesadas y volatilidad en rachas~\cite{bootstrap, efron}.
 \end{block}
 
 \end{column}
@@ -85,49 +86,62 @@ y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Interval
 \begin{column}{34.37cm}
 
 \begin{block}{Resultados y análisis}
-\textbf{El café se movió, pero la TRM terminó donde empezó} El café pasó de
-124 a 307\,¢ por libra; la TRM, de 3149 a 3185 pesos
-(Figura~\ref{fig:niveles}).
+%\textbf{El café se movió, pero la TRM terminó donde empezó} El café pasó de 124 a 307\,¢ por libra; la TRM, de 3149 a 3185 pesos (Figura~\ref{fig:niveles}).
 
 \begin{figure}
   \centering
   % Reemplace este recuadro por su figura, por ejemplo:
-  \includegraphics[width=0.75\linewidth]{img/fig_niveles.pdf}
+  \includegraphics[width=0.7\linewidth]{img/fig_niveles.pdf}
   \caption{Café en dólares, TRM y café en pesos (enero 2016 = 100).}
   \label{fig:niveles}
 \end{figure}
 
-\textbf{El café explica más del 80\% en todo horizonte.} $R^2$ de 88\% diario, 81\% semanal y 85\% mensual (Figura~\ref{fig:r2}), con intervalos al 95\% que no bajan del 77\%. La correlación café--TRM es débil (entre $-$0.01 y $-$0.18): la tasa de cambio casi no amortigua los movimientos del café.
+\textbf{El café explica más del 80\,\% en todo horizonte.} $R^2$ de 88\,\% diario, 81\,\% semanal y 85\,\% mensual (Figura~\ref{fig:r2}), con intervalos al 95\,\% que no bajan del 77\,\%. La correlación café--TRM es débil (entre $-$0.01 y $-$0.18): la tasa de cambio casi no amortigua los movimientos del café.
 \begin{figure}
   \centering
   % Reemplace este recuadro por su figura, por ejemplo:
-  \includegraphics[width=0.75\linewidth]{img/fig_r2.pdf}
-  \caption{Reparto de la varianza del retorno del café en pesos, con el IC al 95\% del $R^2$.}
+  \includegraphics[width=0.7\linewidth]{img/fig_r2.pdf}
+  \caption{Reparto de la varianza del retorno del café en pesos, con el IC al 95\,\% del $R^2$.}
   \label{fig:r2}
 \end{figure}
+
+\textbf{Cubrirse uno a uno es casi óptimo.} La razón de cobertura es $h^* = 1.00$ (diario), $0.96$ (semanal) y $0.93$ (mensual). Con futuros de café, se elimina del 81\,\% al 88\,\% de la varianza del ingreso en pesos.
 
 \end{block}
 
 \begin{block}{Conclusiones}
 \begin{itemize}
-  \item El precio internacional domina el precio del café en pesos.
+  \item El precio internacional domina la variabilidad del precio en pesos.
   \item La TRM pesa poco y no es una cobertura natural.
   \item La cobertura debe apuntar al café (futuros), no a la divisa.
 \end{itemize}
-{\wsSmallSize\textbf{Limitaciones:} KC=F es el precio internacional, no
-el del productor, y es un contrato continuo; los cierres diarios del café
-y de la TRM no están sincronizados. \textbf{Trabajo futuro:} controlar
-por el dólar amplio y comparar con el real brasileño.}
+{\wsSmallSize
+\textbf{Trabajo futuro:} explicar el precio internacional con sus determinantes: producción mundial (en especial Brasil) e inventarios certificados de ICE.\\
+\textbf{Limitaciones:} KC=F es el precio internacional, no el del productor. 
+%y es un contrato continuo; los cierres diarios del café y de la TRM no están sincronizados.
+}
 \end{block}
 
 \begin{block}{Referencias}
+
+
 \begin{thebibliography}{9}
-  \bibitem{futuros} Autor, A. y Autor, B. (2024). Título del artículo.
-    \emph{Nombre de la Revista}, 10(2), 1--20.
-  \bibitem{bootstrap} Autor, C. (2022). \emph{Título del libro}. Editorial.
-  \bibitem{trm} Superfinanciera. \emph{TRM}, datos.gov.co (32sa-8pi3).
-  Yahoo Finance, serie KC=F.
+  \bibitem{futuros} Ederington (1979). \emph{J. Finance}, 34(1), 157--170.
+  \bibitem{bootstrap} Politis y Romano (1994). \emph{JASA}, 89(428), 1303--1313.
+  \bibitem{efron} Efron (1979). \emph{Ann. Statist.}, 7(1), 1--26.
 \end{thebibliography}
+% Referencias completas:
+%\begin{thebibliography}{9}
+%  \bibitem{futuros} Ederington, L. H. (1979). The hedging performance of the
+%    new futures markets. \emph{The Journal of Finance}, 34(1), 157--170.
+%  \bibitem{bootstrap} Politis, D. N. y Romano, J. P. (1994). The stationary
+%  bootstrap. \emph{Journal of the American Statistical Association},
+%  89(428), 1303--1313.
+%  \bibitem{efron} Efron, B. (1979). Bootstrap methods: another look at the
+%  jackknife. \emph{The Annals of Statistics}, 7(1), 1--26.
+%  \bibitem{trm} Superfinanciera. \emph{TRM}, datos.gov.co (32sa-8pi3).
+%  Yahoo Finance, serie KC=F.
+%\end{thebibliography}
 \end{block}
 
 \end{column}
@@ -135,3 +149,4 @@ por el dólar amplio y comparar con el real brasileño.}
 
 \end{frame}
 \end{document}
+
