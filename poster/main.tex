@@ -48,7 +48,7 @@ El café se cotiza en dólares en Nueva York, pero el caficultor colombiano vend
 \end{block}
 
 \begin{block}{Materiales y métodos}
-Precios diarios de cierre del 4 de enero de 2016 al 23 de octubre de 2026: futuros de café variedad arábica KC=F (¢\,USD por libra, Yahoo Finance) y TRM (COP por USD, Superintendencia Financiera de Colombia). Son 2718 retornos diarios, 563 retornos semanales y 128 retornos mensuales.
+Precios diarios de cierre del 4 de enero de 2016 al 23 de octubre de 2026: futuros de café variedad arábica KC=F (¢\,USD por libra, Yahoo Finance) y TRM (COP por USD, Superintendencia Financiera de Colombia). Son 2718 retornos diarios, 563 semanales y 128 mensuales.
 
 \textbf{1. Precio en pesos.}
 \begin{equation}
@@ -62,7 +62,7 @@ Precios diarios de cierre del 4 de enero de 2016 al 23 de octubre de 2026: futur
 
 \textbf{3. Varianza.} 
 \begin{equation}
-  \operatorname{Var}\!\left( R^{\mathrm{COP}}_t\right) = \operatorname{Var}\left(R^{\mathrm{USD}}_t \right) + \operatorname{Var}\!\left(R^{\mathrm{TRM}}_t\right) + 2 \operatorname{Cov}\!\left(R^{\mathrm{USD}}_t, R^{\mathrm{TRM}}_t\right) .
+  \operatorname{Var}\!\left( R^{\mathrm{COP}}_t\right) = \operatorname{Var}\!\left(R^{\mathrm{USD}}_t \right) + \operatorname{Var}\!\left(R^{\mathrm{TRM}}_t\right) + 2 \operatorname{Cov}\!\left(R^{\mathrm{USD}}_t, R^{\mathrm{TRM}}_t\right) .
 \end{equation}
 
 \textbf{4. Cuánto explica el café.} Ajustamos una recta entre el retorno en pesos y el retorno en dólares. El $R^2$ mide qué fracción de la variabilidad del precio en pesos se explica por esa recta. El resto, $\varepsilon$, es lo que el café no alcanza a explicar:
@@ -77,7 +77,7 @@ Precios diarios de cierre del 4 de enero de 2016 al 23 de octubre de 2026: futur
 \begin{equation}
   h^* = \frac{\operatorname{Cov}\!\big(R^{\mathrm{COP}}, R^{\mathrm{USD}}\big)}{\operatorname{Var}\!\big(R^{\mathrm{USD}}\big)}
 \end{equation}
-y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Intervalos al 95\,\% por bootstrap (1000 repeticiones, por bloques en el diario) pues los retornos tienen colas pesadas y volatilidad en rachas~\cite{bootstrap, efron}.
+y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Intervalos al 95\,\% por bootstrap (1000 repeticiones, por bloques en el diario), pues los retornos tienen colas pesadas y volatilidad en rachas~\cite{bootstrap, efron}.
 \end{block}
 
 \end{column}
@@ -96,7 +96,7 @@ y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Interval
   \label{fig:niveles}
 \end{figure}
 
-\textbf{El café explica más del 80\,\% en todo horizonte.} $R^2$ de 88\,\% diario, 81\,\% semanal y 85\,\% mensual (Figura~\ref{fig:r2}), con intervalos al 95\,\% que no bajan del 77\,\%. La correlación café--TRM es débil (entre $-$0.01 y $-$0.18): la tasa de cambio casi no amortigua los movimientos del café.
+\textbf{El café explica más del 80\,\% en todo horizonte.} $R^2$ de 88\,\% diario, 81\,\% semanal y 85\,\% mensual (Figura~\ref{fig:r2}), con intervalos al 95\,\% que no bajan del 77\,\%. La correlación café--TRM es débil (entre −0.01 y −0.18): la tasa de cambio casi no amortigua los movimientos del café.
 \begin{figure}
   \centering
   % Reemplace este recuadro por su figura, por ejemplo:
@@ -105,7 +105,7 @@ y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Interval
   \label{fig:r2}
 \end{figure}
 
-\textbf{Cubrirse uno a uno es casi óptimo.} La razón de cobertura es $h^* = 1.00$ (diario), $0.96$ (semanal) y $0.93$ (mensual). Con futuros de café, se elimina del 81\,\% al 88\,\% de la varianza del ingreso en pesos.
+\textbf{Cubrirse uno a uno es casi óptimo.} La razón de cobertura es $h^*$ = 1.00 (diario), 0.96 (semanal) y 0.93 (mensual). Con futuros de café, se elimina del 81\,\% al 88\,\% de la varianza del ingreso en pesos.
 
 \end{block}
 
@@ -116,7 +116,7 @@ y el mismo $R^2$ mide qué fracción del riesgo elimina~\cite{futuros}. Interval
   \item La cobertura debe apuntar al café (futuros), no a la divisa.
 \end{itemize}
 {\wsSmallSize
-\textbf{Trabajo futuro:} explicar el precio internacional con sus determinantes: producción mundial (en especial Brasil) e inventarios certificados de ICE.\\
+\textbf{Trabajo futuro:} explicar el precio internacional con sus determinantes: producción mundial (en especial de Brasil) e inventarios certificados de ICE.\\
 \textbf{Limitaciones:} KC=F es el precio internacional, no el del productor. 
 %y es un contrato continuo; los cierres diarios del café y de la TRM no están sincronizados.
 }
